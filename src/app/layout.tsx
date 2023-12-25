@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { siteConfig } from "@/config/site";
 import Header from "@/components/header";
+import { ClerkProvider } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
+import { Inter as FontSans } from "next/font/google";
+import { siteConfig } from "@/config/site";
+import { ThemeProvider } from "@/components/theme-provider";
+import "./globals.css";
+import type { Metadata } from "next";
 
 export const fontSans = FontSans({
     subsets: ["latin"],
     variable: "--font-sans",
 });
-
-import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
@@ -33,23 +33,27 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body
-                className={cn(
-                    "min-h-screen font-sans antialiased bg-gray-200 dark:bg-background",
-                    fontSans.variable
-                )}
-            >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
+        <ClerkProvider>
+            <html lang="en" suppressHydrationWarning>
+                <body
+                    className={cn(
+                        "min-h-screen font-sans antialiased bg-gray-200 dark:bg-background",
+                        fontSans.variable
+                    )}
                 >
-                    <Header />
-                    <main className="px-4 md:px-8 xl:px-12">{children}</main>
-                </ThemeProvider>
-            </body>
-        </html>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <Header />
+                        <main className="px-4 md:px-8 xl:px-12">
+                            {children}
+                        </main>
+                    </ThemeProvider>
+                </body>
+            </html>
+        </ClerkProvider>
     );
 }
