@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import type { Metadata } from "next";
 
-export const fontSans = FontSans({
+const fontSans = FontSans({
     subsets: ["latin"],
     variable: "--font-sans",
 });
